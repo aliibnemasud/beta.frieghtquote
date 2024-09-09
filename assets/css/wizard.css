@@ -1,0 +1,14 @@
+label{
+    font-size: 18px !important; 
+}
+.form-control{
+    font-size: 16px !important;
+}
+
+select.form-control:not([size]):not([multiple]){
+    height: 50px !important;
+}
+
+.logo a img {
+    width: 200px;
+}
