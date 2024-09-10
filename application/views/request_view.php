@@ -16,20 +16,21 @@
             <button class="btn btn-default" id="outbound" onclick="onClickOutboundBtn();">Outbound</button>
         </div>
         <div class="row mt-5 main_div">
-            <div class="col-md-3 d-none" style="text-align: center">
+            <div class="col-md-3 d-none company-origin" style="text-align: center">
                 <label for="company_name" style="float: left">Company Origin</label>
                 <input type="text" id="company_name" class="form-control" placeholder="Company Name" style="display: none;">
                 <input type="text" id="company_list" class="form-control" placeholder="Company Name">
                 <button class="btn btn-info btn-sm" id="new_company" style="background-color: #17a2b800;border-color: #17a2b800;color: black">Add New</button>
             </div>
-            <div class="col-md-3 offset-md-1">
+            <!-- offset-md-1 -->
+            <div class="col-md-3 ">
                 <label for="city">City Origin</label>
                 <input type="text" id="city" class="form-control address" placeholder="City" onFocus="geolocate()">
             </div>
             <div class="col-md-2">
                 <label for="state">State Origin</label>
                 <select id="state" class="form-control address" placeholder="State">
-                    <option data-common="true"></option>
+                <option data-common="true"></option>
                     <option value="AL" data-country="US">AL</option>
                     <option value="AK" data-country="US">AK</option>
                     <option value="AZ" data-country="US">AZ</option>
@@ -42,7 +43,7 @@
                     <option value="GA" data-country="US">GA</option>
                     <option value="HI" data-country="US">HI</option>
                     <option value="ID" data-country="US">ID</option>
-                    <option value="IL" data-country="US">IL</option>
+                    <option value="IL" data-country="US" selected>IL</option>
                     <option value="IN" data-country="US">IN</option>
                     <option value="IA" data-country="US">IA</option>
                     <option value="KS" data-country="US">KS</option>
@@ -108,9 +109,10 @@
                 </select>
             </div>
         </div>
+        <div id="2ndRow" class="d-none">
         <div class="row mt-3 main_div">
-            <div class="col-md-3 d-none" style="text-align: center">
-                <label for="city" style="float:left">Company Destination</label>
+            <div class="col-md-3 d-none company-destination" style="text-align: center">
+                <label for="dest_company_name" style="float:left">Company Destination</label>
                 <input type="text" id="dest_company_name" class="form-control" placeholder="Company Name" style="display: none;">
                 <input type="text" id="dest_company_list" class="form-control" placeholder="Company Name" value="Interco" readonly>
                 <button class="btn btn-info btn-sm" id="dest_new_company" style="background-color: #17a2b800;border-color: #17a2b800;color: black">Add New</button>
@@ -122,7 +124,7 @@
             <div class="col-md-2">
                 <label for="dest_state">State Destination</label>
                 <select id="dest_state" class="form-control dest_address" placeholder="State">
-                    <option data-common="true"></option>
+                <option data-common="true"></option>
                     <option value="AL" data-country="US">AL</option>
                     <option value="AK" data-country="US">AK</option>
                     <option value="AZ" data-country="US">AZ</option>
@@ -201,8 +203,17 @@
                 </select>
             </div>
         </div>
+        </div>
         <div class="row mt-3 main_div">
-            <div class="col-md-3 offset-md-1">
+            <div id="intercoFacilityDiv" class="col-md-3">
+                <label for="intercoFacility">Interco Facility</label>
+                <select id="intercoFacility" class="form-control">
+                    <option value="ITC -- Madison">ITC -- Madison</option>
+                    <option value="ITC -- Edwardsville">ITC -- Edwardsville</option>
+                    <option value="CMR -- Fredericktown">CMR -- Fredericktown</option>                   
+                </select>
+        </div>
+            <div class="col-md-3 ">
                 <label for="van_dump">Type</label>
                 <select id="van_dump" class="form-control">
                     <option value="Van">Van</option>
@@ -248,8 +259,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12" style="text-align: center">
-                        <h4>Your Freight Quote has been Submitted</h4>
-                        <h4>You should receive a response shortly.</h4>
+                        <h4>Your freight quote has been submitted</h4>                        
                     </div>
                 </div>
             </div>
@@ -348,6 +358,11 @@
         $("#zip_code").val("");
         $("#inbound").removeClass();
         $("#inbound").addClass("btn btn-success");
+        
+        $("#2ndRow").removeClass();
+        $("#2ndRow").addClass("d-none");
+        $("#intercoFacilityDiv").removeClass();
+        $("#intercoFacilityDiv").addClass("d-block");
 
         $('#dest_company_list').val("Interco").prop("readonly", true);
         $("#dest_city").val("Madison");
@@ -358,7 +373,6 @@
         $("#outbound").addClass("btn btn-default");
     }
 
-
     function onClickOutboundBtn() {
         // Create a new option element
         $('#company_list').val("Interco").prop("readonly", true);
@@ -368,6 +382,10 @@
         $("#zip_code").val("62060");
         $("#inbound").removeClass();
         $("#inbound").addClass("btn btn-default");
+        
+        $("#2ndRow").addClass("d-block");
+        $("#intercoFacilityDiv").removeClass();
+        $("#intercoFacilityDiv").addClass("d-none");
 
         $('#dest_company_list').val("").prop("readonly", false);
         $("#dest_city").val("");
