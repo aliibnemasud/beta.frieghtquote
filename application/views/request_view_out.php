@@ -104,8 +104,8 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12" style="text-align: center">
-                        <h4>Your Freight Quote has been Submitted</h4>
-                        <h4>You should receive a response shortly.</h4>
+                        <h4>Your freight quote has been submitted.</h4>
+                        <!-- <h4>You should receive a response shortly.</h4> -->
                     </div>
                 </div>
             </div>

@@ -83,6 +83,7 @@ class Quote extends CI_Controller
 		$data_array['pallet'] = $this->input->post("pallet");
 		$data_array['weight'] = $this->input->post("weight");
 		$data_array['commodity'] = $this->input->post("commodity");
+		$data_array['interco_facility'] = $this->input->post("interco_facility"); // Added this line step 2
 		$data_array['user_id'] = $data['data']['ID'];
 		$data_array['trader_date'] = date("Y-m-d H:i:s");
 

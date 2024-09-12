@@ -94,7 +94,8 @@ $(document).ready(function () {
     // }
     
     $('#save').prop('disabled', true);
-
+        
+    // Step -> 1
     $.ajax({
       url: '/beta.freightquote/index.php/quote/save_employee',
       type: 'POST',
@@ -113,6 +114,7 @@ $(document).ready(function () {
         pallet: $('#pallet').val(),
         weight: $('#weight').val().replace(/,/g, ''),
         commodity: $('#commodity').val(),
+        interco_facility: $('#interco_facility').val(),  // Add this line
       },
       dataType: 'JSON',
       success: function (res) {
@@ -120,7 +122,7 @@ $(document).ready(function () {
         // $("#success_modal").modal("show");
         $('#droba-loader').addClass('loaded');
         $('.main_div').css('display', 'none');
-        $('.after_div').html('<h4>Your Freight Quote has been Submitted</h4><h4>You should receive a response shortly.</h4>');
+        $('.after_div').html('<h4>Your freight quote has been submitted.</h4>');
       },
     });
   });

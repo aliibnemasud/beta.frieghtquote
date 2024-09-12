@@ -110,110 +110,110 @@
             </div>
         </div>
         <div id="2ndRow" class="d-none">
-        <div class="row mt-3 main_div">
-            <div class="col-md-3 d-none company-destination" style="text-align: center">
-                <label for="dest_company_name" style="float:left">Company Destination</label>
-                <input type="text" id="dest_company_name" class="form-control" placeholder="Company Name" style="display: none;">
-                <input type="text" id="dest_company_list" class="form-control" placeholder="Company Name" value="Interco" readonly>
-                <button class="btn btn-info btn-sm" id="dest_new_company" style="background-color: #17a2b800;border-color: #17a2b800;color: black">Add New</button>
+            <div class="row mt-3 main_div">
+                <div class="col-md-3 d-none company-destination" style="text-align: center">
+                    <label for="dest_company_name" style="float:left">Company Destination</label>
+                    <input type="text" id="dest_company_name" class="form-control" placeholder="Company Name" style="display: none;">
+                    <input type="text" id="dest_company_list" class="form-control" placeholder="Company Name" value="Interco" readonly>
+                    <button class="btn btn-info btn-sm" id="dest_new_company" style="background-color: #17a2b800;border-color: #17a2b800;color: black">Add New</button>
+                </div>
+                <div class="col-md-3 offset-md-1">
+                    <label for="dest_city">City Destination</label>
+                    <input type="text" id="dest_city" class="form-control dest_address" placeholder="City" value="Madison" onFocus="geolocate_dest()">
+                </div>
+                <div class="col-md-2">
+                    <label for="dest_state">State Destination</label>
+                    <select id="dest_state" class="form-control dest_address" placeholder="State">
+                    <option data-common="true"></option>
+                        <option value="AL" data-country="US">AL</option>
+                        <option value="AK" data-country="US">AK</option>
+                        <option value="AZ" data-country="US">AZ</option>
+                        <option value="AR" data-country="US">AR</option>
+                        <option value="CA" data-country="US">CA</option>
+                        <option value="CO" data-country="US">CO</option>
+                        <option value="CT" data-country="US">CT</option>
+                        <option value="DE" data-country="US">DE</option>
+                        <option value="FL" data-country="US">FL</option>
+                        <option value="GA" data-country="US">GA</option>
+                        <option value="HI" data-country="US">HI</option>
+                        <option value="ID" data-country="US">ID</option>
+                        <option value="IL" data-country="US" selected>IL</option>
+                        <option value="IN" data-country="US">IN</option>
+                        <option value="IA" data-country="US">IA</option>
+                        <option value="KS" data-country="US">KS</option>
+                        <option value="KY" data-country="US">KY</option>
+                        <option value="LA" data-country="US">LA</option>
+                        <option value="ME" data-country="US">ME</option>
+                        <option value="MD" data-country="US">MD</option>
+                        <option value="MA" data-country="US">MA</option>
+                        <option value="MI" data-country="US">MI</option>
+                        <option value="MN" data-country="US">MN</option>
+                        <option value="MS" data-country="US">MS</option>
+                        <option value="MO" data-country="US">MO</option>
+                        <option value="MT" data-country="US">MT</option>
+                        <option value="NE" data-country="US">NE</option>
+                        <option value="NV" data-country="US">NV</option>
+                        <option value="NH" data-country="US">NH</option>
+                        <option value="NJ" data-country="US">NJ</option>
+                        <option value="NM" data-country="US">NM</option>
+                        <option value="NY" data-country="US">NY</option>
+                        <option value="NC" data-country="US">NC</option>
+                        <option value="ND" data-country="US">ND</option>
+                        <option value="OH" data-country="US">OH</option>
+                        <option value="OK" data-country="US">OK</option>
+                        <option value="OR" data-country="US">OR</option>
+                        <option value="PA" data-country="US">PA</option>
+                        <option value="RI" data-country="US">RI</option>
+                        <option value="SC" data-country="US">SC</option>
+                        <option value="SD" data-country="US">SD</option>
+                        <option value="TN" data-country="US">TN</option>
+                        <option value="TX" data-country="US">TX</option>
+                        <option value="UT" data-country="US">UT</option>
+                        <option value="VT" data-country="US">VT</option>
+                        <option value="VA" data-country="US">VA</option>
+                        <option value="WA" data-country="US">WA</option>
+                        <option value="WV" data-country="US">WV</option>
+                        <option value="WI" data-country="US">WI</option>
+                        <option value="WY" data-country="US">WY</option>
+                        <option value="DC" data-country="US">DC</option>
+                        <option value="AB" data-country="CA" style="display: none">AB</option>
+                        <option value="BC" data-country="CA" style="display: none">BC</option>
+                        <option value="MB" data-country="CA" style="display: none">MB</option>
+                        <option value="NB" data-country="CA" style="display: none">NB</option>
+                        <option value="NL" data-country="CA" style="display: none">NL</option>
+                        <option value="NS" data-country="CA" style="display: none">NS</option>
+                        <option value="ON" data-country="CA" style="display: none">ON</option>
+                        <option value="PE" data-country="CA" style="display: none">PE</option>
+                        <option value="QC" data-country="CA" style="display: none">QC</option>
+                        <option value="SK" data-country="CA" style="display: none">SK</option>
+                        <option value="NT" data-country="CA" style="display: none">NT</option>
+                        <option value="NU" data-country="CA" style="display: none">NU</option>
+                        <option value="YT" data-country="CA" style="display: none">YT</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="dest_zip_code">Zip Code Destination</label>
+                    <input type="text" id="dest_zip_code" class="form-control dest_address" value="62060" placeholder="Zip Code" maxlength="5">
+                </div>
+                <div class="col-md-2">
+                    <label for="dest_country">Country Destination</label>
+                    <select id="dest_country" class="form-control dest_address" placeholder="Country" data-target="#dest_state">
+                        <option value="US" selected>USA</option>
+                        <option value="CA">Canada</option>
+                    </select>
+                </div>
             </div>
-            <div class="col-md-3 offset-md-1">
-                <label for="dest_city">City Destination</label>
-                <input type="text" id="dest_city" class="form-control dest_address" placeholder="City" value="Madison" onFocus="geolocate_dest()">
-            </div>
-            <div class="col-md-2">
-                <label for="dest_state">State Destination</label>
-                <select id="dest_state" class="form-control dest_address" placeholder="State">
-                <option data-common="true"></option>
-                    <option value="AL" data-country="US">AL</option>
-                    <option value="AK" data-country="US">AK</option>
-                    <option value="AZ" data-country="US">AZ</option>
-                    <option value="AR" data-country="US">AR</option>
-                    <option value="CA" data-country="US">CA</option>
-                    <option value="CO" data-country="US">CO</option>
-                    <option value="CT" data-country="US">CT</option>
-                    <option value="DE" data-country="US">DE</option>
-                    <option value="FL" data-country="US">FL</option>
-                    <option value="GA" data-country="US">GA</option>
-                    <option value="HI" data-country="US">HI</option>
-                    <option value="ID" data-country="US">ID</option>
-                    <option value="IL" data-country="US" selected>IL</option>
-                    <option value="IN" data-country="US">IN</option>
-                    <option value="IA" data-country="US">IA</option>
-                    <option value="KS" data-country="US">KS</option>
-                    <option value="KY" data-country="US">KY</option>
-                    <option value="LA" data-country="US">LA</option>
-                    <option value="ME" data-country="US">ME</option>
-                    <option value="MD" data-country="US">MD</option>
-                    <option value="MA" data-country="US">MA</option>
-                    <option value="MI" data-country="US">MI</option>
-                    <option value="MN" data-country="US">MN</option>
-                    <option value="MS" data-country="US">MS</option>
-                    <option value="MO" data-country="US">MO</option>
-                    <option value="MT" data-country="US">MT</option>
-                    <option value="NE" data-country="US">NE</option>
-                    <option value="NV" data-country="US">NV</option>
-                    <option value="NH" data-country="US">NH</option>
-                    <option value="NJ" data-country="US">NJ</option>
-                    <option value="NM" data-country="US">NM</option>
-                    <option value="NY" data-country="US">NY</option>
-                    <option value="NC" data-country="US">NC</option>
-                    <option value="ND" data-country="US">ND</option>
-                    <option value="OH" data-country="US">OH</option>
-                    <option value="OK" data-country="US">OK</option>
-                    <option value="OR" data-country="US">OR</option>
-                    <option value="PA" data-country="US">PA</option>
-                    <option value="RI" data-country="US">RI</option>
-                    <option value="SC" data-country="US">SC</option>
-                    <option value="SD" data-country="US">SD</option>
-                    <option value="TN" data-country="US">TN</option>
-                    <option value="TX" data-country="US">TX</option>
-                    <option value="UT" data-country="US">UT</option>
-                    <option value="VT" data-country="US">VT</option>
-                    <option value="VA" data-country="US">VA</option>
-                    <option value="WA" data-country="US">WA</option>
-                    <option value="WV" data-country="US">WV</option>
-                    <option value="WI" data-country="US">WI</option>
-                    <option value="WY" data-country="US">WY</option>
-                    <option value="DC" data-country="US">DC</option>
-                    <option value="AB" data-country="CA" style="display: none">AB</option>
-                    <option value="BC" data-country="CA" style="display: none">BC</option>
-                    <option value="MB" data-country="CA" style="display: none">MB</option>
-                    <option value="NB" data-country="CA" style="display: none">NB</option>
-                    <option value="NL" data-country="CA" style="display: none">NL</option>
-                    <option value="NS" data-country="CA" style="display: none">NS</option>
-                    <option value="ON" data-country="CA" style="display: none">ON</option>
-                    <option value="PE" data-country="CA" style="display: none">PE</option>
-                    <option value="QC" data-country="CA" style="display: none">QC</option>
-                    <option value="SK" data-country="CA" style="display: none">SK</option>
-                    <option value="NT" data-country="CA" style="display: none">NT</option>
-                    <option value="NU" data-country="CA" style="display: none">NU</option>
-                    <option value="YT" data-country="CA" style="display: none">YT</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <label for="dest_zip_code">Zip Code Destination</label>
-                <input type="text" id="dest_zip_code" class="form-control dest_address" value="62060" placeholder="Zip Code" maxlength="5">
-            </div>
-            <div class="col-md-2">
-                <label for="dest_country">Country Destination</label>
-                <select id="dest_country" class="form-control dest_address" placeholder="Country" data-target="#dest_state">
-                    <option value="US" selected>USA</option>
-                    <option value="CA">Canada</option>
-                </select>
-            </div>
-        </div>
         </div>
         <div class="row mt-3 main_div">
             <div id="intercoFacilityDiv" class="col-md-3">
-                <label for="intercoFacility">Interco Facility</label>
-                <select id="intercoFacility" class="form-control">
+                <label for="interco_facility">Interco Facility</label>
+                <select id="interco_facility" class="form-control">
                     <option value="ITC -- Madison">ITC -- Madison</option>
                     <option value="ITC -- Edwardsville">ITC -- Edwardsville</option>
                     <option value="CMR -- Fredericktown">CMR -- Fredericktown</option>                   
                 </select>
-        </div>
-            <div class="col-md-3 ">
+            </div>
+            <div class="col-md-2">
                 <label for="van_dump">Type</label>
                 <select id="van_dump" class="form-control">
                     <option value="Van">Van</option>
