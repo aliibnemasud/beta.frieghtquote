@@ -11,29 +11,15 @@
     <link rel="stylesheet" href="assets/temp/css/style.css?ver=1.3">
 </head>
 
-<style>
-    @font-face {
-        font-family: Calibri;
-        src: url(assets/css/cali.ttf);
-    }
+<?php
+if ($status == 1) {
+    $this->load->view("header");
+}
 
-    body {
-        font-family: Calibri
-    }
+// Decode the pallets JSON into an array
+// $pallets = !empty($data[0]['pallets']) ? json_decode($data[0]['pallets'], true) : [];
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    label {
-        font-family: Calibri;
-        color: #212529;
-        font-weight: 500;
-        line-height: 1.4;
-    }
-</style>
+?>
 
 <body>
 
@@ -44,7 +30,7 @@
                 <!-- <div class="icon icon-17"><img src="assets/temp/img/icon-img/shape.png" alt=""></div> -->
                 <!-- <div class="icon icon-18"><img src="assets/temp/img/icon-img/shap-13.png" alt=""></div> -->
             </div>
-            <div class="container h-100" style="margin-top: 2rem;">
+            <div class="container h-100" style="margin-top: 5rem;">
                 <div class="row">
                     <div class="col-md-12" style="text-align: center">
                         <h1>FREIGHT QUOTE</h1>
@@ -56,11 +42,29 @@
                         <div class="row">
                             <div class="col-md-12 mt-3" style="text-align: left">
                                 <h5>Trader: <?= $data[0]['display_name'] ?></h5>
-                                <h5><?= $data[0]['user_email'] ?></h5>
+                                <!--<h5><?= $data[0]['user_email'] ?></h5>-->
                             </div>
                             <div class="col-md-12 mt-3" style="text-align: left">
                                 <h5>Type: <?= $data[0]['van_dump'] ?></h5>
                             </div>
+                            
+                            <?php if (!empty($pallets)): ?>
+                                <div class="col-md-12 mt-3" style="text-align: left">
+                                    <h5>Pallets (Total: <?= count($pallets) ?>):</h5>
+                                    <ul>
+                                        <?php foreach ($pallets as $pallet): ?>
+                                            <li class="text-dark">
+                                                <span class="fw-bold">Weight:</span> <?= number_format($pallet['weight']) ?> lbs,
+                                                <span class="fw-bold">Length:</span> <?= number_format($pallet['length']) ?> in,
+                                                <span class="fw-bold">Width:</span> <?= number_format($pallet['width']) ?> in,
+                                                <span class="fw-bold">Height:</span> <?= number_format($pallet['height']) ?> in
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            <?php endif; ?>
+                            
+                            
                             <div class="col-md-12 mt-3" style="text-align: left">
                                 <h5>Commodity: <?= $data[0]['commodity'] ?></h5>
                             </div>
@@ -71,7 +75,14 @@
                                 <h5>Origin: <?= $data[0]['origin_city'] . ", " . $data[0]['origin_state'] . " " . $data[0]['origin_zip_code'] . " " . $data[0]['origin_country'] ?></h5>
                             </div>
                             <div class="col-md-12 mt-3" style="text-align: left">
-                                <h5>Destination: <?= $data[0]['dest_city'] . ", " . $data[0]['dest_state'] . " " . $data[0]['dest_zip_code'] . " " . $data[0]['dest_country'] ?></h5>
+                                
+                                
+                                <?php if ($data[0]['interco_facility'] === 'Other Destination'): ?>
+                                    <h5>Destination: <?= $data[0]['dest_city'] . ", " . $data[0]['dest_state'] . " " . $data[0]['dest_zip_code'] . " " . $data[0]['dest_country'] ?></h5>
+                                <?php else: ?>
+                                    <h5>Destination: <?= $data[0]['interco_facility'] ?></h5>
+                                <?php endif; ?>
+                                
                             </div>
                             <div class="col-md-12 mt-3">
                                 <h5>Quoted By: <?= $username ?></h5>
@@ -105,7 +116,7 @@
                 </div>
 
                 <input type="hidden" id="hidden_id" name="hidden_id" value="<?= $data[0]['id'] ?>">
-                <div class="row mt-5 ">
+                <div class="row mt-5">
                     <div class="col-md-12 after_div" style="text-align: center">
                         <button class="btn btn-danger" style="color: white;background-color: black;border-color:black" type="button" id="save_trader">Submit</button>
                     </div>
@@ -125,19 +136,19 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-7 offset-md-1 mt-2">
-                                <label id="">Carrier Name<span style="color: red">*</span></label>
+                                <label id="">Carrier Name</label> <!-- <span style="color: red">*</span>-->
                                 <input type="text" id="carrier_name" name="carrier_name" required class="form-control">
                             </div>
                             <div class="col-md-3 mt-2">
-                                <label id="">Company Phone<span style="color: red">*</span></label>
+                                <label id="">Company Phone</label>
                                 <input type="text" id="company_phone" name="company_phone" required class="form-control">
                             </div>
                             <div class="col-md-4 offset-md-1 mt-2">
-                                <label id="">City<span style="color: red">*</span></label>
+                                <label id="">City</label>
                                 <input type="text" id="carrier_city" name="carrier_city" required class="form-control address" onFocus="geolocate()">
                             </div>
                             <div class="col-md-2 mt-2">
-                                <label id="">State<span style="color: red">*</span></label>
+                                <label id="">State</label>
                                 <select id="carrier_state" name="carrier_state" required class="form-control address" placeholder="State">
                                     <option data-common="true"></option>
                                     <option value="AL" data-country="US">AL</option>
@@ -207,29 +218,29 @@
                                 </select>
                             </div>
                             <div class="col-md-2 mt-2">
-                                <label id="">Zip Code<span style="color: red">*</span></label>
+                                <label id="">Zip Code</label> <!--<span style="color: red">*</span>-->
                                 <input type="text" id="carrier_zip_code" name="carrier_zip_code" required class="form-control address" maxlength="5">
                             </div>
                             <div class="col-md-2 mt-2">
-                                <label for="carrier_country">Country<span style="color: red">*</span></label>
+                                <label for="carrier_country">Country</label>
                                 <select id="carrier_country" class="form-control address" placeholder="Country" data-target="#carrier_state">
                                     <option value="US" selected>USA</option>
                                     <option value="CA">Canada</option>
                                 </select>
                             </div>
-                            <div class="col-md-4 offset-md-1 mt-2">
+                            <div class="col-md-5 offset-md-1 mt-2">
                                 <label id="">Contact First Name</label>
                                 <input type="text" id="contact_first" name="contact_first" class="form-control">
                             </div>
-                            <div class="col-md-4 mt-2">
+                            <div class="col-md-5 mt-2">
                                 <label id="">Contact Last Name</label>
                                 <input type="text" id="contact_second" name="contact_second" class="form-control">
                             </div>
-                            <div class="col-md-7 offset-md-1 mt-2">
+                            <div class="col-md-6 offset-md-1 mt-2">
                                 <label id="">Contact Email</label>
                                 <input type="text" id="contact_email" name="contact_email" class="form-control">
                             </div>
-                            <div class="col-md-3 mt-2">
+                            <div class="col-md-4 mt-2">
                                 <label id="">Contact Direct Phone</label>
                                 <input type="text" id="contact_phone" name="contact_phone" class="form-control">
                             </div>
@@ -255,7 +266,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12" style="text-align: center">
-                                <h4>Your Freight Quote has been sent to the ITC Trader</h4>
+                                <h4 style="font-family: 'Poppins', sans-serif;">Your Freight Quote has been sent to the ITC Traderr</h4>
                             </div>
                         </div>
                     </div>
@@ -269,10 +280,15 @@
             </div>
             <div class="container h-100" style="margin-top: 5rem;">
                 <div class="row">
-                    <div class="col-12" style="text-align: center">
-                        <h1>This quote was processed by <?= $mcc_name[0]['display_name'] ?> </h1>
-                        <h1>at <?= date("m/d/y H:i A", strtotime($data[0]['mcc_date'])) ?></h1>
+                    <!--<div class="col-12" style="text-align: center;">-->
+                    <!--    <h4 style="font-family: "Poppins", sans-serif;">This quote was processed by <?= $mcc_name[0]['display_name'] ?> </h4>-->
+                    <!--    <h4 style="font-family: "Poppins", sans-serif;">at <?= date("m/d/y H:i A", strtotime($data[0]['mcc_date'])) ?></h4>-->
+                    <!--</div>-->
+                    <div class="col-12" style="text-align: center;">
+                        <h4 style="font-family: 'Poppins', sans-serif;">This quote was processed by <?= htmlspecialchars($mcc_name[0]['display_name'], ENT_QUOTES, 'UTF-8') ?> </h4>
+                        <h4 style="font-family: 'Poppins', sans-serif;">at <?= htmlspecialchars(date("m/d/y H:i A", strtotime($data[0]['mcc_date'])), ENT_QUOTES, 'UTF-8') ?></h4>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -280,6 +296,16 @@
     } ?>
 
     <?php $this->load->view("footer"); ?>
+    
+    <script type="text/javascript">
+        // Pass PHP variable to JavaScript
+        var van_dump_value = <?php echo json_encode($data[0]['van_dump']); ?>;
+        var origin_city = <?php echo json_encode($data[0]['origin_city']); ?>;
+        var origin_state = <?php echo json_encode($data[0]['origin_state']); ?>;
+        var origin_zip_code = <?php echo json_encode($data[0]['origin_zip_code']); ?>;
+        var interco_facility = <?php echo json_encode($data[0]['interco_facility']); ?>;
+    </script>
+    
     <script src="assets/js/mcc.js?ver=1.3"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4pvNQmbADDWIXTrZPthdRduyLQWO17zg&libraries=places&callback=initAutocomplete" async defer></script>

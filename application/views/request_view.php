@@ -1,20 +1,23 @@
+
+
 <?php $this->load->view("header"); ?>
 <link rel="stylesheet" type="text/css" href="assets/css/wizard.css">
-<div class="welcome-area four bg-white">
+<div class="" style="background: #fff;">
     <div class="anim-icons">
         <!-- <div class="icon icon-17"><img src="assets/temp/img/icon-img/shape.png" alt=""></div> -->
         <!-- <div class="icon icon-18"><img src="assets/temp/img/icon-img/shap-13.png" alt=""></div> -->
     </div>
-    <div class="container h-100" style="margin-top: 5rem;">
+    <div class="min" style="padding-top: 5rem; padding-bottom: 5rem; height: 100%;">
+        <div class="container">
         <div class="row">
             <div class="col-md-12" style="text-align: center">
                 <h1>FREIGHT QUOTE</h1>
             </div>
         </div>
-        <div class="row">
-            <button class="btn btn-success" id="inbound" onclick="onClickInboundBtn();">Inbound</button>
-            <button class="btn btn-default" id="outbound" onclick="onClickOutboundBtn();">Outbound</button>
-        </div>
+        <!--<div class="row">-->
+        <!--    <button class="btn btn-success" id="inbound" onclick="onClickInboundBtn();">Inbound</button>-->
+        <!--    <button class="btn btn-default" id="outbound" onclick="onClickOutboundBtn();">Outbound</button>-->
+        <!--</div>-->
         <div class="row mt-5 main_div">
             <div class="col-md-3 d-none company-origin" style="text-align: center">
                 <label for="company_name" style="float: left">Company Origin</label>
@@ -97,11 +100,11 @@
                     <option value="YT" data-country="CA" style="display: none">YT</option>
                 </select>
             </div>
-            <div class="col-md-3">
-                <label for="zip_code">Zip Code Origin</label>
-                <input type="text" id="zip_code" class="form-control address" placeholder="Zip Code" maxlength="5">
-            </div>
             <div class="col-md-2">
+                <label for="zip_code">Zip Code Origin</label>
+                <input type="text" id="zip_code" class="form-control address" placeholder="Zip Code">
+            </div>
+            <div class="col-md-3">
                 <label for="country">Country Origin</label>
                 <select id="country" class="form-control address" placeholder="Country" data-target="#state">
                     <option value="US" selected>USA</option>
@@ -117,7 +120,8 @@
                     <input type="text" id="dest_company_list" class="form-control" placeholder="Company Name" value="Interco" readonly>
                     <button class="btn btn-info btn-sm" id="dest_new_company" style="background-color: #17a2b800;border-color: #17a2b800;color: black">Add New</button>
                 </div>
-                <div class="col-md-3 offset-md-1">
+                <!--offset-md-1-->
+                <div class="col-md-3">
                     <label for="dest_city">City Destination</label>
                     <input type="text" id="dest_city" class="form-control dest_address" placeholder="City" value="Madison" onFocus="geolocate_dest()">
                 </div>
@@ -206,14 +210,15 @@
         </div>
         <div class="row mt-3 main_div">
             <div id="intercoFacilityDiv" class="col-md-3">
-                <label for="interco_facility">Interco Facility</label>
+                <label for="interco_facility">Facility</label>
                 <select id="interco_facility" class="form-control">
                     <option value="ITC -- Madison">ITC -- Madison</option>
                     <option value="ITC -- Edwardsville">ITC -- Edwardsville</option>
                     <option value="CMR -- Fredericktown">CMR -- Fredericktown</option>                   
+                    <option value="Other Destination">Other Destination</option>                   
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 col-lg-2">
                 <label for="van_dump">Type</label>
                 <select id="van_dump" class="form-control">
                     <option value="Van">Van</option>
@@ -222,14 +227,22 @@
                     <option value="LTL">LTL</option>
                 </select>
             </div>
+            <!--<div class="col-md-2 pallet-input d-none">-->
+            <!--    <label for="pallet">How many pallets?</label>-->
+            <!--    <input type="text" id="pallet" class="form-control" placeholder="Pallet">-->
+            <!--</div>-->
+            
             <div class="col-md-2 pallet-input d-none">
-                <label for="pallet">Pallet</label>
-                <input type="text" id="pallet" class="form-control" placeholder="Pallet">
+                <label for="pallet">How many pallets?</label>
+                <input type="number" id="pallet" class="form-control" placeholder="Pallet" min="1">
             </div>
-            <div class="col-md-2">
-                <label for="weight">Weight</label>
+            
+            
+            <div class="col-md-2 weight_ltl">
+                <label for="weight" id="weight_ltl">Weight</label>
                 <input type="text" id="weight" class="form-control" placeholder="Weight">
             </div>
+            
             <div class="col-md-3">
                 <label for="commodity">Commodity</label>
                 <select id="commodity" class="form-control">
@@ -241,14 +254,28 @@
                 </select>
             </div>
         </div>
+        
+        <div id="ltlContainer" class="mt-3"></div>
+        <!--<button id="getValues" class="btn btn-primary mt-3">Get Values</button>-->
+        <!--<button id="save_pallets" class="btn btn-secondary mt-3">Save Pallets</button>-->
+        
+        <div id="weight-error" class="text-danger mt-2" style="display: none;" >Weight limit 45,000 exceeded</div>
+        
+        <div class="row mt-3 main_div">            
+            <div class="col-md-10 mt-2">
+                <label for="note">Note</label>
+                <textarea class="form-control" name="note" id="note" placeholder="Note" style="min-height: 100px;"></textarea>
+            </div>
+        </div>
         <div class="row mt-5">
             <div class="col-md-12 after_div" style="text-align: center">
                 <button class="btn btn-success" id="save">Submit</button>
             </div>
         </div>
     </div>
+    </div>
 </div>
-<div class="modal fade bd-example-modal-lg" id="success_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: #808080e0">
+<div class="modal fade bd-example-modal-lg" id="success_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -259,7 +286,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12" style="text-align: center">
-                        <h4>Your freight quote has been submitted</h4>                        
+                        <h4>Your freight quote has been submitted.</h4>
                     </div>
                 </div>
             </div>
@@ -395,6 +422,51 @@
         $("#outbound").removeClass();
         $("#outbound").addClass("btn btn-success");
     }
+    
+    $(document).ready(function() {
+        $('#interco_facility').on('click', function() {
+            var interco_facility = $('#interco_facility').val();
+            if (interco_facility === 'Other Destination') {
+                $("#2ndRow").addClass("d-block");
+                $("#dest_city").val("");
+                $("#dest_state").val("");
+                $("#dest_country").val("")
+                $("#dest_zip_code").val("");
+            } 
+            else if (interco_facility === 'ITC -- Madison'){
+                $("#dest_city").val("Madison");
+                $("#dest_state").val("IL");
+                $("#dest_country").val("US").trigger('change');
+                $("#dest_zip_code").val("62060");
+                $("#2ndRow").removeClass();
+                $("#2ndRow").addClass("d-none");
+            }
+            else if (interco_facility === 'ITC -- Edwardsville'){
+                $("#dest_city").val("Edwardsville");
+                $("#dest_state").val("IL");
+                $("#dest_country").val("US").trigger('change');
+                $("#dest_zip_code").val("62025");
+                $("#2ndRow").removeClass();
+                $("#2ndRow").addClass("d-none");
+            }            
+            else if (interco_facility === 'CMR -- Fredericktown'){
+                $("#dest_city").val("Fredericktown");
+                $("#dest_state").val("MO");
+                $("#dest_country").val("US").trigger('change');
+                $("#dest_zip_code").val("63645");
+                $("#2ndRow").removeClass();
+                $("#2ndRow").addClass("d-none");
+            }            
+            else {
+                $("#2ndRow").removeClass();
+                $("#2ndRow").addClass("d-none");
+                $("#dest_city").val("Madison");
+                $("#dest_state").val("IL");
+                $("#dest_country").val("US").trigger('change');
+                $("#dest_zip_code").val("62060");
+            }
+        });
+    });
 
     function geolocate_dest() {
         if (navigator.geolocation) {
@@ -424,22 +496,187 @@
         $('#weight').on('change', function(evt) {
             $(this).val(parseFloat($(this).val().replace(/,/g, '')).toLocaleString());
         });
-        $('#dest_zip_code, #zip_code').on('keydown', function(evt) {
+        
+        // $('#dest_zip_code, #zip_code, #weight').on('keydown', function(evt) {
+        // var key = evt.which || evt.keyCode;
+        // if ((evt.ctrlKey && (key === 86 || key === 67 || key === 88)) || // Allow Ctrl + V, Ctrl + C, Ctrl + X
+        //     (48 <= key && key <= 57) || (96 <= key && key <= 105) || [8, 37, 38, 39, 40, 46].includes(key)) {
+        //     return;
+        //     }
+        //     evt.preventDefault();
+        //     evt.stopPropagation();
+        // });
+        
+        // $('#dest_zip_code, #zip_code, #weight').on('keydown', function(evt) {
+        //     var key = evt.which || evt.keyCode;
+        //     // Allow Ctrl + V, Ctrl + C, Ctrl + X
+        //     if ((evt.ctrlKey && (key === 86 || key === 67 || key === 88)) || 
+        //         // Allow digits (0-9) from both main keyboard and numpad
+        //         (48 <= key && key <= 57) || (96 <= key && key <= 105) || 
+        //         // Allow letters (A-Z)
+        //         (65 <= key && key <= 90) || 
+        //         // Allow navigation keys, backspace, and delete
+        //         [8, 37, 38, 39, 40, 46].includes(key)) {
+        //         return;
+        //     }
+        //     evt.preventDefault();
+        //     evt.stopPropagation();
+        // });
+        
+        $('#dest_zip_code, #zip_code, #weight').on('keydown', function(evt) {
             var key = evt.which || evt.keyCode;
-            if ((48 <= key && key <= 57) || (96 <= key && key <= 105) || [8, 37, 38, 39, 40, 46].includes(key)) {
+            // Allow Ctrl + V, Ctrl + C, Ctrl + X
+            if ((evt.ctrlKey && (key === 86 || key === 67 || key === 88)) || 
+                // Allow digits (0-9) from both main keyboard and numpad
+                (48 <= key && key <= 57) || (96 <= key && key <= 105) || 
+                // Allow letters (A-Z)
+                (65 <= key && key <= 90) || 
+                // Allow space key
+                key === 32 || 
+                // Allow navigation keys, backspace, and delete
+                [8, 37, 38, 39, 40, 46].includes(key)) {
                 return;
             }
             evt.preventDefault();
             evt.stopPropagation();
         });
-        $('select#van_dump').on('change', function(evt) {
-            var $pallet = $('.pallet-input').val('');
-            if ($(this).val() == 'LTL') {
-                $pallet.removeClass('d-none');
-            } else {
-                $pallet.addClass('d-none');
+
+
+        
+        /// New Row For LTL
+        
+        $('select#van_dump').on('change', function() {
+        var $palletInput = $('.pallet-input');
+        var $weightLabel = $('#weight_ltl');
+        var $weightField = $('#weight');
+        $('#weight-error').hide();
+    
+        if ($(this).val() == 'LTL') {
+            $palletInput.removeClass('d-none');
+            $weightLabel.text('Total Weight'); // Change label text to "Total Weight"
+            $weightField.attr('disabled', 'disabled');
+            $('.weight_ltl').hide();
+        } else {
+            $palletInput.addClass('d-none');
+            $weightLabel.text('Weight'); // Reset label text to "Weight"
+            $('#ltlContainer').empty(); // Clear the container if needed
+            $weightField.removeAttr('disabled'); // Enable the weight field
+            $('#weight').val('').trigger('input'); // Clear the total weight field
+            $('.weight_ltl').show();
             }
         });
+
+        $('#pallet').on('input', function() {
+            var numPallets = $(this).val();
+            var $ltlContainer = $('#ltlContainer');
+    
+            // Clear existing rows
+            $ltlContainer.empty();
+    
+            // Add rows based on the number of pallets
+            for (var i = 0; i < numPallets; i++) {
+                $ltlContainer.append(`
+                    <div class="row mt-3 main_div pallets_all_value">
+                        <div class="col-md-3">
+                            <input type="text" id="weight_${i}" class="form-control weight" placeholder="Pallet weight">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" id="length_${i}" class="form-control length" placeholder="Length (in)">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" id="width_${i}" class="form-control width" placeholder="Width (in)">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" id="height_${i}" class="form-control height" placeholder="Height (in)">
+                        </div>
+                    </div>
+                `);
+            }
+    
+            // Recalculate total weight whenever new fields are added
+            recalculateTotalWeight();
+        });
+    
+        // Event delegation for dynamically created weight input fields
+        $('#ltlContainer').on('input', '.weight', function() {
+            recalculateTotalWeight();
+        });
+    
+        function recalculateTotalWeight() {
+            var totalWeight = 0;
+            $('.weight').each(function() {
+                var weight = parseFloat($(this).val());
+                if (!isNaN(weight)) {
+                    totalWeight += weight;
+                }
+            });
+            $('#weight').val(totalWeight.toFixed(2)); // Update the total weight field
+        }
+        
+        
+        
+        
+        $('#getValues').on('click', function() {
+        var palletData = [];
+        
+        $('.pallets_all_value').each(function(index) {
+            var palletWeight = $(this).find('.weight').val();
+            var palletLength = $(this).find('.length').val();
+            var palletWidth = $(this).find('.width').val();
+            var palletHeight = $(this).find('.height').val();
+            
+            palletData.push({
+                weight: palletWeight,
+                length: palletLength,
+                width: palletWidth,
+                height: palletHeight
+            });
+        });
+        
+            console.log(palletData);
+        
+        });
+        
+        $("#save_pallets").on("click", function() {
+            // Collect pallet data
+            var palletData = [];
+            
+            $('.pallets_all_value').each(function(index) {
+                var palletWeight = $(this).find('.weight').val();
+                var palletLength = $(this).find('.length').val();
+                var palletWidth = $(this).find('.width').val();
+                var palletHeight = $(this).find('.height').val();
+                
+                palletData.push({
+                    weight: palletWeight,
+                    length: palletLength,
+                    width: palletWidth,
+                    height: palletHeight
+                });
+            });
+        
+            // Log pallet data to console for debugging
+            console.log('inside the azax call', palletData);
+        
+            // Send pallet data via AJAX
+            $.ajax({
+                url: "/beta.freightquote/index.php/quote_mcc/save_pallets_test",
+                type: "POST",
+                data: {
+                    pallet_data: JSON.stringify(palletData)
+                },
+                dataType: "JSON",
+                success: function(res) {
+                    console.log(res);
+                    if (res.status === 'success') {
+                        alert('Pallet data saved successfully!');
+                    } else {
+                        alert('Error: ' + res.message);
+                    }
+                }
+            });
+        });
+        
         $('input#company_list').autocomplete({
             source: function(request, response) {
                 $.ajax({

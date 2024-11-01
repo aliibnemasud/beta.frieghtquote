@@ -6,10 +6,26 @@
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Interco</title>
+    <title>Interco -- Freight Quote</title>
     <link rel="shortcut icon" type="image/x-icon" href="assets/temp/img/favicon.png">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="assets/temp/css/style.css?ver=1.3">
+    
+    <style>
+        html, body {
+            overflow: visible;
+        }
+        
+        .freight-container {
+            position: relative; /* Ensure buttons are positioned correctly */
+            z-index: 10; /* Bring buttons above the content if needed */
+        }
+
+        .webworkers {
+            background: white;
+            z-index: 0;
+        }
+    </style>
 </head>
 
 <body>

@@ -8,18 +8,41 @@ class General_m extends CI_Model
         parent::__construct();
     }
 
-    public function save_employee($data)
+    public function save_freight_quote($data)
     {
         $this->db->insert("tbl_freight", $data);
         return $this->db->insert_id();
     }
 
+    // public function get_quote($id)
+    // {
+    //     $sql = "SELECT `tf`.*, `wu`.`display_name`, `wu`.`user_email` FROM `tbl_freight` as `tf` LEFT JOIN `intercotrading_wp3`.`wp_users` as `wu` ON `wu`.`id` = `tf`.`user_id` WHERE `tf`.`id` = ?";
+    //     $query = $this->db->query($sql, [$id]);
+    //     return $query->result_array();
+    // }
+    // public function get_quote($id)
+    // {
+    //     $sql = "SELECT `tf`.*, `wu`.`display_name`, `wu`.`user_email`, 
+    //                   (SELECT GROUP_CONCAT(JSON_OBJECT('weight', p.weight, 'length', p.length, 'width', p.width, 'height', p.height)) 
+    //                     FROM `pallets` p WHERE p.freight_id = tf.id) AS pallets
+    //             FROM `tbl_freight` as `tf`
+    //             LEFT JOIN `intercotrading_wp3`.`wp_users` as `wu` ON `wu`.`id` = `tf`.`user_id`
+    //             WHERE `tf`.`id` = ?";
+    //     $query = $this->db->query($sql, [$id]);
+    //     return $query->result_array();
+    // }
+    
     public function get_quote($id)
     {
-        $sql = "SELECT `tf`.*, `wu`.`display_name`, `wu`.`user_email` FROM `tbl_freight` as `tf` LEFT JOIN `intercotrading_wp3`.`wp_users` as `wu` ON `wu`.`id` = `tf`.`user_id` WHERE `tf`.`id` = ?";
+        $sql = "SELECT `tf`.*, `wu`.`display_name`, `wu`.`user_email`
+                FROM `tbl_freight` as `tf`
+                LEFT JOIN `intercotrading_wp3`.`wp_users` as `wu` ON `wu`.`id` = `tf`.`user_id`
+                WHERE `tf`.`id` = ?";
         $query = $this->db->query($sql, [$id]);
         return $query->result_array();
     }
+
+
 
     public function get_company($query)
     {
@@ -48,6 +71,31 @@ class General_m extends CI_Model
     public function save_carrier($data)
     {
         $this->db->insert("tbl_carrier", $data);
+        return "success";
+    }
+    
+    public function save_pallet($data) {
+        $this->db->insert('tbl_freight_ltl_pallets', $data);
+    }
+    
+    // Get pallets by freight ID
+    public function get_pallets_by_freight_id($freight_id) {
+        $this->db->where('freight_id', $freight_id);
+        $query = $this->db->get('tbl_freight_ltl_pallets');
+        return $query->result_array();
+    }
+    
+    public function save_pallets_test($palletData) {
+    foreach ($palletData as $pallet) {
+        // Log each pallet data before insertion for debugging
+        log_message('debug', 'Inserting pallet data: ' . json_encode($pallet));
+        $this->db->insert("tbl_freight_ltl_pallets", [
+            'weight' => $pallet['weight'],
+            'length' => $pallet['length'],
+            'width' => $pallet['width'],
+            'height' => $pallet['height']
+        ]);
+     }
         return "success";
     }
 
@@ -91,6 +139,7 @@ class General_m extends CI_Model
             $data['rate'] = $res['rate'];
             $data['note'] = $res['note'];
             $data['mcc_date'] = $res['mcc_date'];
+            $data['interco_facility'] = $res['interco_facility']; // added - Ali
             array_push($sender, $data);
         }
         $sql = "SELECT `wu`.`display_name`, `wu`.`user_email`, `tc`.`carrier_name` FROM `tbl_freight` as `tf` LEFT JOIN `intercotrading_wp3`.`wp_users` as `wu` ON `wu`.`id` = `tf`.`mcc_user` LEFT JOIN `tbl_carrier` as `tc` ON `tc`.`id` = `tf`.`carrier` WHERE `tf`.`id` = ?";
@@ -175,6 +224,3 @@ class General_m extends CI_Model
         return "success";
     }
 }
-
-
-///

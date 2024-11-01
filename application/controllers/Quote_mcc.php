@@ -36,13 +36,20 @@ class Quote_mcc extends CI_Controller
             $data['status'] = 0;
             $data['mcc_name'] = $this->General_m->get_mcc_name($data['data'][0]['mcc_user']);
         }
+        $freight_id = $data['data'][0]['id']; // Assuming 'freight_id' is the correct field name
+        $pallets = $this->General_m->get_pallets_by_freight_id($freight_id);
+        $data['pallets'] = $pallets;
         $this->load->view('mcc_view', $data);
-    }
+        }
+
 
     protected function getCountry($abbr)
     {
         if ($abbr == 'US') {
             return 'USA';
+        }
+        if ($abbr == 'CA') {
+            return 'Canada';
         }
         return $abbr;
     }
@@ -62,9 +69,60 @@ class Quote_mcc extends CI_Controller
         $result = $this->General_m->save_carrier($data);
         echo (json_encode($result));
     }
-
+    
+    
+    // Saving the Pallets
+    public function save_pallets_test() {
+        $palletData = $this->input->post("pallet_data");
+        $formattedPalletData = stripslashes($palletData);
+        $decodedPalletData = json_decode($formattedPalletData, true);
+        if (!empty($decodedPalletData)) {
+        $result = $this->General_m->save_pallets_test($decodedPalletData);
+        echo json_encode(['status' => 'success', 'message' => 'Pallet data saved successfully!']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'No pallet data provided']);
+        }
+    }
+    
     public function update_mcc()
     {
+        // Token generation logic
+        // $token_url = '';
+        // $client_id = '';
+        // $client_secret = '';
+        // $resource_url = 'https://intercotradingco.crm.dynamics.com';
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $token_url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query([
+                'grant_type' => 'client_credentials',
+                'client_id' => $client_id,
+                'client_secret' => $client_secret,
+                'resource' => $resource_url,
+            ]),
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/x-www-form-urlencoded',
+            ],
+        ]);
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        $token_data = json_decode($response, true);
+
+        if (isset($token_data['access_token'])) {
+            $access_token = $token_data['access_token'];
+        } else {
+            echo json_encode(['error' => 'Failed to acquire access token']);
+            return;
+        }        
+        
+        //  Previous Code
+
         $carrier = $this->input->post("carrier");
         $rate = $this->input->post("rate");
         $mcc_date = date("Y-m-d H:i:s");
@@ -213,6 +271,12 @@ class Quote_mcc extends CI_Controller
                 'stringValue' => date("m/d/y H:i A", strtotime($data[0]['mcc_date']))
             ]
         ];
+        
+        $cell['interco_facility'] = [
+        'userEnteredValue' => [
+            'stringValue' => $data[0]['interco_facility']
+            ]
+        ];
 
         $cell['diff'] = [
             'userEnteredValue' => [
@@ -221,54 +285,26 @@ class Quote_mcc extends CI_Controller
             'userEnteredFormat' => [
                 "horizontalAlignment" => "center",
             ]
-        ];
-
-        /*
-        $client = $this->getClient();
-        $service = new Google_Service_Sheets($client);
-        $spreadsheetId = 'LrwZ47MA5ecBlRnMSzyNbLRqFqdXZGZ9ZE51D_AwhM';
-        $fileId = $spreadsheetId;
-
-        $cells = [$cell['trader_date'], $cell['trader'], $cell['trader_email'], $cell['origin_company'], $cell['origin_city'], $cell['origin_state'], $cell['origin_zip_code'], $cell['dest_company'], $cell['dest_city'], $cell['dest_state'], $cell['dest_zip_code'], $cell['van_dump'], $cell['commodity'], $cell['weight'], $cell['carrier_name'], $cell['rate'], $cell['mcc_user'], $cell['mcc_date'], $cell['diff']];
-        $row = [
-            'values' => $cells
-        ];
-        $rows[] = $row;
-
-        $appendCellsRequest = [
-            'fields' => '*',
-            'rows' => $rows
-        ];
-
-        $request = [
-            'appendCells' => $appendCellsRequest
-        ];
-
-        $batchUpdate = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest([
-            'requests' => [$request]
-        ]);
-
-        $service->spreadsheets->batchUpdate($spreadsheetId, $batchUpdate);
-
-
-        // $data[0]['share_link'] = "https://drive.google.com/file/d/".$share_id."/view";
-        $data[0]['share_link'] = "";
-        $update = $this->General_m->update_sharing_link($data[0]['id'], $data[0]['share_link']);
-*/
+        ];        
+        
         $to = $data[0]['trader_email'];
-        // $to = "jinmeng@jin-site.com";
-        $subject = 'MCC Freight Quote -- ' . $data[0]['origin_company'] . " - " . $data[0]['origin_city'] . " " . $data[0]['origin_zip_code'];
-        $message = $this->load->view("Email_trader_back", $data[0], TRUE);
-        $headers = "From: " . strip_tags($data[0]['mcc_email']) . "\r\n";
-        $headers .= "Reply-To: " . strip_tags($data[0]['mcc_email']) . "\r\n";
-        // $headers .= "CC: jinmeng@jin-site.com\r\n";
+        // $to = $data[0]['trader_email'] . ', freightrate@intercotradingco.com';
+        // $to = $data[0]['trader_email'] . ', connors@intercotradingco.com';        
+        $subject = 'Freight Quote - ' . $data[0]['origin_city'] . ", " . $data[0]['origin_state'] . " " . $data[0]['origin_zip_code'] . " " . $data[0]['origin_country'];
+        $message = $this->load->view("Email_trader_back", $data[0], TRUE);        
+        $headers = "From: " . strip_tags($data[0]['mcc_user']) . "\r\n";
+        $headers .= "Reply-To: " . strip_tags($data[0]['mcc_email']) . "\r\n";        
         $headers .= "MIME-Version: 1.0\r\n";
         $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-        mail($to, $subject, $message, $headers);
+        mail($to, $subject, $message, $headers);       
 
-        echo (json_encode("success"));
-
-        // redirect("https://itcep.intercotradingco.com/");
+        $response_data = [
+            'status' => 'success',
+            'message' => 'Freight Quote has been sent to the ITC Trader',
+            'access_token' => $access_token,
+        ];
+        // echo (json_encode("success"));
+        echo json_encode($response_data);
     }
 
     public function getClient()

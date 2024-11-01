@@ -105,7 +105,7 @@
                 <div class="row">
                     <div class="col-md-12" style="text-align: center">
                         <h4>Your freight quote has been submitted.</h4>
-                        <!-- <h4>You should receive a response shortly.</h4> -->
+                        <!--<h4>You should receive a response shortly.</h4>-->
                     </div>
                 </div>
             </div>
@@ -116,6 +116,18 @@
 <script src="assets/js/wizard.js"></script>
 <script src="assets/js/employee.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4pvNQmbADDWIXTrZPthdRduyLQWO17zg&libraries=places&callback=initAutocomplete" async defer></script>
+
+<script>
+    document.getElementById('inbound').addEventListener('click', function() {
+        document.querySelector('.inbound-fields').style.display = 'block';
+        document.querySelector('.outbound-fields').style.display = 'none';
+    });
+
+    document.getElementById('outbound').addEventListener('click', function() {
+        document.querySelector('.inbound-fields').style.display = 'none';
+        document.querySelector('.outbound-fields').style.display = 'block';
+    });
+</script>
 
 <script>
     var placeSearch, autocomplete;

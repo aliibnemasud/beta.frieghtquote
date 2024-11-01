@@ -12,3 +12,7 @@ select.form-control:not([size]):not([multiple]){
 .logo a img {
     width: 200px;
 }
+
+body {
+    background: white;
+}
