@@ -42,7 +42,7 @@ The `save_fright_quote` function processes a freight quote request submitted thr
 
 ## Reply Freight Quote
 
-It updates the freight quote data and sends Email to the `trader` also `freightrate@intercotradingco.com` this email to get record. Also update the data to the `dynamics365` on contracts which match with the `location` by using the the dynamic integration. Method `update_mcc` first portion it's generating a token and sending to the response and then it's updating on Microsoft Dynamics 360. 
+It updates the freight quote data and sends Email to the `trader` also `freightrate@intercotradingco.com` this email to get record. Also update the data to the `Dynamics 360` on `contracts` which match with the `location` by using the the dynamic integration method `updateContact`. Method `update_mcc` first portion it's generating a token and sending to the response and then it's updating on Microsoft Dynamics 360.
 
 And here, can register a new carrier.
 
@@ -55,7 +55,10 @@ And here, can register a new carrier.
   - Location: `/application/views/mmc_view.php`
 - Email Template
   - Location: `/application/views/Email_trader_back.php`
-  - Send To: `{trader_email}`
+  - Send To: `{trader_email}` && `freightrate@intercotradingco.com`
+- Update Contacts Dynamics 360
+  - Location: `/assets/mcc.js/updateContact`
+
 
 ### Register Carrier
 
